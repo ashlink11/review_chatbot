@@ -16,7 +16,8 @@ const Curation = require("./curation"),
   Care = require("./care"),
   Survey = require("./survey"),
   GraphAPi = require("./graph-api"),
-  i18n = require("../i18n.config");
+  i18n = require("../i18n.config"),
+  Review = require("./review");
 
 module.exports = class Receive {
   constructor(user, webhookEvent) {
@@ -102,12 +103,12 @@ module.exports = class Receive {
         Response.genText(i18n.__("get_started.guidance")),
         Response.genQuickReply(i18n.__("get_started.help"), [
           {
-            title: i18n.__("menu.suggestion"),
-            payload: "CURATION"
+            title: i18n.__("menu.review_yes"),
+            payload: "REVIEW"
           },
           {
-            title: i18n.__("menu.help"),
-            payload: "CARE_HELP"
+            title: i18n.__("menu.review_no"),
+            payload: "REVIEW_THANK_YOU"
           }
         ])
       ];
@@ -186,6 +187,9 @@ module.exports = class Receive {
     } else if (payload.includes("CURATION") || payload.includes("COUPON")) {
       let curation = new Curation(this.user, this.webhookEvent);
       response = curation.handlePayload(payload);
+    } else if (payload.includes("REVIEW")) {
+      let review = new Review(this.user, this.webhookEvent);
+      response = review.handlePayload(payload);
     } else if (payload.includes("CARE")) {
       let care = new Care(this.user, this.webhookEvent);
       response = care.handlePayload(payload);
@@ -231,12 +235,12 @@ module.exports = class Receive {
 
     let response = Response.genQuickReply(welcomeMessage, [
       {
-        title: i18n.__("menu.suggestion"),
-        payload: "CURATION"
+        title: i18n.__("menu.review_yes"),
+        payload: "REVIEW"
       },
       {
-        title: i18n.__("menu.help"),
-        payload: "CARE_HELP"
+        title: i18n.__("menu.review_no"),
+        payload: "REVIEW_THANK_YOU"
       }
     ]);
 

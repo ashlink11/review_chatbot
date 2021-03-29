@@ -133,17 +133,17 @@ module.exports = class Response {
 
     let guide = this.genText(i18n.__("get_started.guidance"));
 
-    let curation = this.genQuickReply(i18n.__("get_started.help"), [
+    let review = this.genQuickReply(i18n.__("get_started.help"), [
       {
-        title: i18n.__("menu.suggestion"),
-        payload: "CURATION"
+        title: i18n.__("menu.review_yes"),
+        payload: "REVIEW"
       },
       {
-        title: i18n.__("menu.help"),
-        payload: "CARE_HELP"
+        title: i18n.__("menu.review_no"),
+        payload: "REVIEW_THANK_YOU"
       }
     ]);
 
-    return [welcome, guide, curation];
+    return [welcome, guide, review];
   }
 };
